@@ -15,7 +15,7 @@ class ApiMpTest {
         api.getDestinations().map { println(it) }
     }
 
-    @Test
+//    @Test - you have to be in the VPN to get this res
     fun test_api2() = runBlocking<Unit> {
         val res = withContext(coroutineContext) { createRemoteRepoGraphQl(createApolloClient()).fetchRepositories() }
         println(res)
