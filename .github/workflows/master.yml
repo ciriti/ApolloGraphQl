@@ -17,8 +17,8 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
-          ./gradlew :shareddata:assemble
-          ./gradlew :shareddata:podspec
+          ./gradlew :kmpdata:assemble
+          ./gradlew :kmpdata:podspec
       - name: Unit Test
         run: |
           ./gradlew cleanTest :kmpdata:test iosTestShared
