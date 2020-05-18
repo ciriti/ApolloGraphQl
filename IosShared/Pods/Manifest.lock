@@ -1,0 +1,16 @@
+PODS:
+  - kmpdata (1.0)
+
+DEPENDENCIES:
+  - kmpdata (from `../kmpdata`)
+
+EXTERNAL SOURCES:
+  kmpdata:
+    :path: "../kmpdata"
+
+SPEC CHECKSUMS:
+  kmpdata: 29c36652fbc44bc3d40eb07454439dfa1f14df06
+
+PODFILE CHECKSUM: 5b8814b73056b2ccb5212420f6b962aa4eef735e
+
+COCOAPODS: 1.9.1

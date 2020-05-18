@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        applicationId "com.apollographql.lm"
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+        exclude 'META-INF/ktor-http.kotlin_module'
+        exclude 'META-INF/ktor-client-serialization.kotlin_module'
+    }
+
+}
+
+// dependencies
+apply from: rootDir.path + '/buildfile/gradle_variable.gradle'
+apply from: rootDir.path + '/buildfile/shared_dependencies.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":kmpdata")
+
+    implementation Libs.android_arch_lifecycle_extensions
+
+    // design
+    implementation Libs.appcompat
+    implementation Libs.core_ktx
+    implementation Libs.constraintlayout
+    implementation Libs.material
+    implementation Libs.cardview
+
+    // di
+    implementation Libs.koin_core
+    implementation Libs.koin_android_viewmodel
+
+    implementation "com.github.bumptech.glide:glide:4.2.0"
+
+//    implementation("com.apollographql.apollo:apollo-api:2.0.3-SNAPSHOT")
+//    implementation("com.apollographql.apollo:apollo-normalized-cache-sqlite:2.0.3-SNAPSHOT")
+//    implementation("com.apollographql.apollo:apollo-runtime:2.0.3-SNAPSHOT")
+//    implementation("com.apollographql.apollo:apollo-android-support:2.0.3-SNAPSHOT")
+    compileOnly "org.jetbrains:annotations:13.0"
+
+}

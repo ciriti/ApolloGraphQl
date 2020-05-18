@@ -1,0 +1,90 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type FlightType {
+    airline: String!
+    destinationAirport: String!
+    direct: Boolean!
+    id: String!
+    originAirport: String!
+    outboundArrival: String!
+    outboundDeparture: String!
+    outboundFlightDuration: Int!
+    returnArrival: String!
+    returnDeparture: String!
+    returnFlightDuration: Int!
+}
+
+type HotelType {
+    address: String
+    cancellationFree: Boolean
+    checkIn: String!
+    checkOut: String!
+    coordinates: String
+    distanceFromCenter: Int!
+    hotelClass: Int!
+    id: String!
+    images: [String]!
+    mealplan: String!
+    name: String!
+    rating: Int!
+    reviews: Int!
+    room: RoomType
+    thumbnails: String
+    type: HotelTypeType!
+}
+
+type PackageType {
+    flightDetail: FlightType
+    hotelDetail: HotelType
+    totalPrice: Float
+}
+
+type Query {
+    search(queryType: QueryType): [PackageType]
+}
+
+type RoomType {
+    amenities: String
+    images: [String]
+    name: String!
+    thumbnail: String
+}
+
+enum HotelTypeType {
+    APARTMENT
+    HOSTEL
+    HOTEL
+}
+
+enum SortingType {
+    DEFAULT
+    PRICE
+    RATING
+}
+
+input FilterType {
+    maxPriceFilter: Float
+    minRating: Float
+}
+
+input PaginationType {
+    maxResultsPerPage: Int
+    pageNumber: Int
+}
+
+input QueryType {
+    businessProfile: String!
+    destination: String!
+    filter: FilterType
+    numberOfPassengers: Int!
+    numberOfRooms: Int!
+    origin: String!
+    outboundDate: String!
+    pagination: PaginationType
+    returnDate: String!
+    sorting: SortingType
+}

@@ -1,0 +1,156 @@
+
+// TODO apply the plugin
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.android.library'
+apply plugin: 'com.apollographql.apollo'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'kotlin-native-cocoapods'
+
+ext{
+    ktor = "1.3.2"
+    coroutines = "1.3.5"
+    arrow_version = "0.10.5"
+    apollo_version = "2.0.3-SNAPSHOT"
+    serialization = "0.20.0"
+}
+
+// CocoaPods requires the podspec to have a version.
+version = "1.0"
+
+// TODO create the kotlin DSL
+kotlin {
+
+    android()
+    // TODO  add the targets
+    targets {
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
+                              ? presets.iosArm64 : presets.iosX64
+        fromPreset(iOSTarget, 'ios') {
+            binaries {
+                framework('SharedData'){
+                    freeCompilerArgs += "-Xobjc-generics"
+                }
+            }
+        }
+    }
+    // TODO add the source set
+    sourceSets {
+
+        all {
+            languageSettings {
+                useExperimentalAnnotation('kotlin.Experimental')
+            }
+        }
+
+        // TODO add the source set
+        commonMain {
+            dependencies{
+
+                implementation "com.apollographql.apollo:apollo-api:$apollo_version"
+                implementation "com.apollographql.apollo:apollo-runtime-kotlin:$apollo_version"
+
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines"
+//                implementation "com.apollographql.apollo:apollo-runtime-kotlin:$apollo_version"
+
+                // serialization
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization"
+
+                implementation "io.ktor:ktor-client-json:$ktor"
+                implementation "io.ktor:ktor-client-serialization:$ktor"
+                implementation "io.ktor:ktor-client-core:$ktor"
+            }
+        }
+        commonTest {
+            dependencies{
+                implementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+            }
+        }
+
+        androidMain {
+            dependencies{
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization"
+
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+                implementation "io.arrow-kt:arrow-core:$arrow_version"
+                implementation "io.arrow-kt:arrow-syntax:$arrow_version"
+
+                implementation "com.apollographql.apollo:apollo-api:$apollo_version"
+
+                // ktor
+                implementation "io.ktor:ktor-client-android:$ktor"
+                implementation "io.ktor:ktor-client-core-jvm:$ktor"
+                implementation "io.ktor:ktor-client-json-jvm:$ktor"
+                implementation "io.ktor:ktor-client-okhttp:$ktor"
+                implementation "io.ktor:ktor-client-serialization-jvm:$ktor"
+            }
+        }
+        androidTest {
+            dependencies{
+                implementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+                implementation "io.mockk:mockk:1.10.0"
+            }
+        }
+
+        iosMain {
+            dependencies{
+
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization"
+
+                //ktor
+                implementation "io.ktor:ktor-client-ios:$ktor"
+                implementation "io.ktor:ktor-client-json-native:$ktor"
+                implementation "io.ktor:ktor-client-serialization-iosx64:$ktor"
+                implementation "com.apollographql.apollo:apollo-api:$apollo_version"
+            }
+        }
+        iosTest {
+            dependencies{
+                implementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+            }
+        }
+    }
+
+    cocoapods {
+        // Configure fields required by CocoaPods.
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
+        // The name of the produced framework can be changed.
+        // The name of the Gradle project is used here by default.
+//        frameworkName = "SharedData"
+    }
+}
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+task iosTestShared(dependsOn: 'linkDebugTestIos') {
+    def device = project.findProperty("iosDevice")?.toString() ?: "iPhone 8"
+    doLast {
+        def binary = kotlin.targets.ios.binaries.getTest("DEBUG").outputFile
+        exec {
+            commandLine 'xcrun', 'simctl', 'spawn', '--standalone', device, binary.absolutePath
+        }
+    }
+}
