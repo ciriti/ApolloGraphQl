@@ -5,9 +5,9 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: macos-latest
-    env:
-      PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+#    env:
+#      PROJECT_ID: ${{ secrets.PROJECT_ID }}
+#      SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
     steps:
       - uses: actions/checkout@v1
       - name: set up JDK 1.8
