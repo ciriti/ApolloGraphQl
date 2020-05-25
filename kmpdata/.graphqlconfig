@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://ose-api-qa.nonprd.bravofly.intra/ose-api/graphql",
+        "url": "http://localhost:4000/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

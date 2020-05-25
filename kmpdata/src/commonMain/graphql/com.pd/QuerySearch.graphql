@@ -1,53 +1,11 @@
-query Search {
-    search(queryType: {
-        origin: "MAD"
-        destination: "141660"
-        outboundDate: "2020-10-25"
-        returnDate: "2020-10-27"
-        numberOfPassengers: 2
-        numberOfRooms: 1
-        filter: {
-            maxPriceFilter: 700.00
-            minRating: 80
+query User {
+    user(id: $id){
+        id
+        name
+        age
+        hobbies{
+            description
+            title
         }
-        pagination: {
-            maxResultsPerPage: 10
-            pageNumber:3
-        }
-        sorting: RATING
-        businessProfile: "HOLIDAYSLASTMINUTECOUK"
-    })
-    {
-        hotelDetail{
-            id
-            checkIn
-            checkOut
-            room{
-                name
-                thumbnail
-                amenities
-                images
-            }
-            images
-            mealplan
-            rating
-            reviews
-            coordinates
-            address
-            cancellationFree
-        }
-        flightDetail{
-            id
-            airline
-            originAirport
-            destinationAirport
-            outboundFlightDuration
-            outboundDeparture
-            outboundArrival
-            returnFlightDuration
-            returnDeparture
-            returnArrival
-        }
-        totalPrice
     }
 }
