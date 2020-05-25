@@ -7,10 +7,38 @@
 //
 
 import SwiftUI
+import kmpdata
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            Text("Hello, World!")
+            Button(action: {
+                print("========= Loading... =========")
+                ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchUserCB(id: "1", success: { data in
+                    print(data)
+                    print("========= Done! =========")
+                }, error: { error in print(error)})
+            }){
+                Text("Call")
+                .font(.system(size: 50))
+                .fontWeight(.heavy)
+                .foregroundColor(.white)
+                .padding(.horizontal)
+            }
+            .background(Color.green)
+            Button(action: {
+                print("test")
+            }){
+                Text("Play")
+                    .font(.system(size: 50))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+            }
+            .background(Color.red)
+        }
+        
     }
 }
 

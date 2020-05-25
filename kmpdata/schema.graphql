@@ -23,14 +23,14 @@ type Post {
 type RootQueryType {
     hobby(id: ID): Hobby
     post(id: ID): Post
-    user(id: ID): User
+    user(id: String): User
 }
 
 "Documentation for user..."
 type User {
     age: Int
     hobbies: [Hobby]
-    id: ID
+    id: String
     name: String
     posts: [Post]
     profession: String
