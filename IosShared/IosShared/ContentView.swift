@@ -15,7 +15,6 @@ struct ContentView: View {
     
     var body: some View {
         VStack{
-            
             Button(action: {
                ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
                 self.content = "\(data)"
@@ -28,9 +27,7 @@ struct ContentView: View {
                     .foregroundColor(.black)
                     .padding(.horizontal)
             }
-            
             Text(content)
-            
         }
         
     }
