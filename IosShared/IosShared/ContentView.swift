@@ -7,10 +7,34 @@
 //
 
 import SwiftUI
+import kmpdata
 
 struct ContentView: View {
+    
+    @State var content = "No data"
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            
+            Button(action: {
+               ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
+                   print("======================= BEGIN =========================")
+                self.content = "\(data)"
+                   print(data)
+                   print("======================= END =========================")
+               }, error: { error in print(error)})
+            }){
+                Text("Send request")
+                    .font(.system(size: 30))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.black)
+                    .padding(.horizontal)
+            }
+            
+            Text(content)
+            
+        }
+        
     }
 }
 
