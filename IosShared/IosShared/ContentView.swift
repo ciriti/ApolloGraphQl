@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         VStack{
             Button(action: {
-               ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
+               ApolloClientKt.create().fetchDataCB(success: { data in
                 self.content = "\(data)"
                 print(data)
                }, error: { error in print(error)})

@@ -22,5 +22,5 @@ object ServiceLocatorShared{
 
     @ApolloExperimental
     @ExperimentalCoroutinesApi
-    val graph = createRemoteRepoGraphQl()
+    val graph = create()
 }
