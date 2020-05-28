@@ -19,6 +19,7 @@ struct ContentView: View {
             Button(action: {
                ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
                 self.content = "\(data)"
+                print(data)
                }, error: { error in print(error)})
             }){
                 Text("Send request")
