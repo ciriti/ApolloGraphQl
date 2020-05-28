@@ -43,9 +43,6 @@ fun createApolloClient() : ApolloClient = ApolloClient(
     )
 )
 
-/**
- * An implementation of a [GitHubDataSource] that shows how we can use coroutines to make our apollo requests.
- */
 @ApolloExperimental
 @ExperimentalCoroutinesApi
 private class ApolloClientImpl(
