@@ -6,14 +6,10 @@ import com.apollographql.apollo.api.ExecutionContext
 import com.apollographql.apollo.network.GraphQLResponse
 import com.lastminute.kmp.data.mock.MockNetworkTransport
 import com.lastminute.kmp.data.mock.TestLoggerExecutor
-import com.lastminute.kmp.data.remotedatasource.createRemoteDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import okio.Buffer
 import okio.ByteString.Companion.encodeUtf8
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 @ApolloExperimental
@@ -36,9 +32,9 @@ class ApolloRepoTest : TestBase(){
             )
         )
 
-        val remoteDs = createRemoteRepoGraphQl(apolloClient, this)
+        val remoteDs = create(apolloClient, this)
 
-        val res = remoteDs.fetchRepositories()
+        val res = remoteDs.fetchData()
         println("======================> $res")
     }
 }

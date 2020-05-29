@@ -48,7 +48,7 @@ fun<T> mapperList(t : KSerializer<T>): suspend (HttpResponse) -> MpTry<List<T>> 
 @kotlinx.serialization.UnstableDefault
 suspend fun <T> HttpResponse.parseListJson(kSerializer: KSerializer<T>): MpTry<List<T>> {
     return MpTry {
-        Json.nonstrict.parse(
+        Json.parse(
             kSerializer.list,
             readText()
         )

@@ -26,11 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        }, error: { error in
 //            print(error)
 //        })
-        ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
-            print("======================= BEGIN =========================")
-            print(data)
-            print("======================= END =========================")
-        }, error: { error in print(error)})
+//        ApolloCoroutinesRepositoryKt.createRemoteRepoGraphQl().fetchRepositoriesCB(success: { data in
+//            print("======================= BEGIN =========================")
+//            print(data)
+//            print("======================= END =========================")
+//        }, error: { error in print(error)})
 
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()

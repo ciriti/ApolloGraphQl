@@ -2,7 +2,7 @@ package com.lastminute.kmp.data.remotedatasource
 
 import com.lastminute.kmp.data.ServiceLocatorShared
 import com.lastminute.kmp.data.createApolloClient
-import com.lastminute.kmp.data.createRemoteRepoGraphQl
+import com.lastminute.kmp.data.create
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.junit.Test
@@ -17,7 +17,8 @@ class ApiMpTest {
 
 //    @Test - you have to be in the VPN to get this res
     fun test_api2() = runBlocking<Unit> {
-        val res = withContext(coroutineContext) { createRemoteRepoGraphQl(createApolloClient()).fetchRepositories() }
+        val res = withContext(coroutineContext) { create(createApolloClient())
+            .fetchData() }
         println(res)
     }
 

@@ -10,22 +10,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-interface RemoteRepoGraphQl{
-    suspend fun fetchRepositories() : SearchQuery.Data?
-    fun fetchRepositoriesCB(success : (SearchQuery.Data) -> Unit, error : (Throwable) -> Unit)
+interface ApolloClient{
+    suspend fun fetchData() : SearchQuery.Data?
+    fun fetchDataCB(success : (SearchQuery.Data) -> Unit, error : (Throwable) -> Unit)
 }
 
 @ApolloExperimental
 @ExperimentalCoroutinesApi
-fun createRemoteRepoGraphQl(client : ApolloClient, scope : CoroutineScope) : RemoteRepoGraphQl = ApolloCoroutinesRepository(client, scope)
+fun create(client : ApolloClient, scope : CoroutineScope) : com.lastminute.kmp.data.ApolloClient =
+    ApolloClientImpl(client, scope)
 
 @ApolloExperimental
 @ExperimentalCoroutinesApi
-fun createRemoteRepoGraphQl(client : ApolloClient) : RemoteRepoGraphQl = ApolloCoroutinesRepository(client, MainScope())
+fun create(client : ApolloClient) : com.lastminute.kmp.data.ApolloClient =
+    ApolloClientImpl(client, MainScope())
 
 @ApolloExperimental
 @ExperimentalCoroutinesApi
-fun createRemoteRepoGraphQl() : RemoteRepoGraphQl = ApolloCoroutinesRepository(createApolloClient(), MainScope())
+fun create() : com.lastminute.kmp.data.ApolloClient =
+    ApolloClientImpl(createApolloClient(), MainScope())
 
 @ApolloExperimental
 @ExperimentalCoroutinesApi
@@ -40,23 +43,20 @@ fun createApolloClient() : ApolloClient = ApolloClient(
     )
 )
 
-/**
- * An implementation of a [GitHubDataSource] that shows how we can use coroutines to make our apollo requests.
- */
 @ApolloExperimental
 @ExperimentalCoroutinesApi
-private class ApolloCoroutinesRepository(
+private class ApolloClientImpl(
     val apolloClient : ApolloClient,
     val scope : CoroutineScope = MainScope()
-) : RemoteRepoGraphQl{
+) : com.lastminute.kmp.data.ApolloClient {
 
-    override suspend fun fetchRepositories() : SearchQuery.Data?{
+    override suspend fun fetchData() : SearchQuery.Data?{
         val repositoriesQuery = SearchQuery()
         val response: Response<SearchQuery.Data> = apolloClient.query(repositoriesQuery).execute().single()
         return response.data
     }
 
-    override fun fetchRepositoriesCB(success : (SearchQuery.Data) -> Unit, error : (Throwable) -> Unit){
+    override fun fetchDataCB(success : (SearchQuery.Data) -> Unit, error : (Throwable) -> Unit){
         scope.launch {
             val repositoriesQuery = SearchQuery()
             apolloClient

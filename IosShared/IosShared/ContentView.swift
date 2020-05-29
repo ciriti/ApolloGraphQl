@@ -7,10 +7,29 @@
 //
 
 import SwiftUI
+import kmpdata
 
 struct ContentView: View {
+    
+    @State var content = "No data"
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            Button(action: {
+               ApolloClientKt.create().fetchDataCB(success: { data in
+                self.content = "\(data)"
+                print(data)
+               }, error: { error in print(error)})
+            }){
+                Text("Send request")
+                    .font(.system(size: 30))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.black)
+                    .padding(.horizontal)
+            }
+            Text(content)
+        }
+        
     }
 }
 

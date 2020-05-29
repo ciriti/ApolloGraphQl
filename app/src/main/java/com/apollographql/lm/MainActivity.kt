@@ -1,8 +1,9 @@
 package com.apollographql.lm
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lastminute.kmp.data.createRemoteRepoGraphQl
+import androidx.appcompat.app.AppCompatActivity
+import com.lastminute.kmp.data.create
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -15,11 +16,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         MainScope().launch {
-            val res = withContext(Dispatchers.IO){ createRemoteRepoGraphQl().fetchRepositories() }
-            println("======================= BEGIN =========================")
-            println(res)
-            println("======================== END ========================")
+            val res = withContext(Dispatchers.IO){ create().fetchData() }
+            content.text = res.toString()
         }
 
+        btn.setOnClickListener {
+            MainScope().launch {
+                val res = withContext(Dispatchers.IO){ create().fetchData() }
+                content.text = res.toString()
+            }
+        }
     }
 }
