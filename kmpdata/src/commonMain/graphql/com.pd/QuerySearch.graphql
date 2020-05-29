@@ -19,35 +19,35 @@ query Search {
     })
     {
         hotelDetail{
-            id
-            checkIn
-            checkOut
-            room{
-                name
-                thumbnail
-                amenities
-                images
-            }
+#            id
+#            checkIn
+#            checkOut
+#            room{
+#                name
+#                thumbnail
+#                amenities
+#                images
+#            }
             images
-            mealplan
-            rating
-            reviews
-            coordinates
-            address
-            cancellationFree
+#            mealplan
+#            rating
+#            reviews
+#            coordinates
+#            address
+#            cancellationFree
         }
-        flightDetail{
-            id
-            airline
-            originAirport
-            destinationAirport
-            outboundFlightDuration
-            outboundDeparture
-            outboundArrival
-            returnFlightDuration
-            returnDeparture
-            returnArrival
-        }
+#        flightDetail{
+#            id
+#            airline
+#            originAirport
+#            destinationAirport
+#            outboundFlightDuration
+#            outboundDeparture
+#            outboundArrival
+#            returnFlightDuration
+#            returnDeparture
+#            returnArrival
+#        }
         totalPrice
     }
 }
